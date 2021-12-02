@@ -167,7 +167,7 @@ final class Siege extends Process {
         return $arguments;
       case RequestModes::CLIENT_SWEEP:
           $logfile = $this->logfile;
-          $client_sweep_time = 10;
+          $client_sweep_time = 60;
           array_push($arguments,
               '-c',
               $this->options->clientThreads,
