@@ -48,7 +48,8 @@ class ClientSweepAutomation {
         $this->ParseSiegeOutput($siege, $options);
         if (!($this->CheckIfContinue($options))) {
           break;
-        }       
+        }      
+       sleep(10);
       }
       if ($this->optimalClientThreads == 0) {
         $this->ReverseClientSweep($options, $target, $mode);
