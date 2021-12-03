@@ -125,15 +125,6 @@ final class PerfRunner {
       self::PrintProgress('Skipping multi request warmup');
     }
     
-    if ($options->clientThreads == 0) {
-      self::PrintProgress('Starting client sweep');    
-      $clientSweepObj = new ClientSweepAutomation();
-      $mode = RequestModes::CLIENT_SWEEP;
-      $options->clientThreads = $clientSweepObj->GetOptimalThreads($options, $target, $mode);
-    } else {
-      self::PrintProgress('Skipping client sweep');
-    }
-
     while (!$options->skipWarmUp && $php_engine->needsRetranslatePause()) {
       self::PrintProgress('Extending warmup, server is not done warming up.');
       sleep(3);
@@ -166,6 +157,15 @@ final class PerfRunner {
     if ($options->scriptAfterWarmup !== null) {
       self::PrintProgress('Starting execution of command: '.$options->scriptAfterWarmup);
       exec($options->scriptAfterWarmup);
+    }
+
+    if ($options->clientThreads == 0) {
+      self::PrintProgress('Starting client sweep');
+      $clientSweepObj = new ClientSweepAutomation();
+      $mode = RequestModes::CLIENT_SWEEP;
+      $options->clientThreads = $clientSweepObj->GetOptimalThreads($options, $target, $mode);
+    } else {
+      self::PrintProgress('Skipping client sweep');
     }
 
     self::PrintProgress('Starting Siege for benchmark');
